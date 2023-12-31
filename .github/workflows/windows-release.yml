@@ -1,0 +1,43 @@
+name: Windows Release
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  ARCHITECTURE: windows-x64
+
+jobs:
+  build-windows-release:
+    defaults:
+      run:
+        shell: bash
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.16.3"
+          channel: 'stable'
+          cache: true
+
+      - name: Start Windows release build ${{ github.ref_name }}
+        run: flutter build windows
+
+      - name: Set up inno-setup
+        run: |
+          curl https://jrsoftware.org/download.php/is.exe --output setup.exe
+          setup.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+
+      - name: Use inno-setup package installer
+        run:
+          iscc.exe /Q SetupScript.iss /O installer.exe
+
+      - name: Upload Windows release to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          retention-days: 7
+          name: installer.exe
+          path: installer.exe
