@@ -41,7 +41,7 @@ jobs:
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_DEVELOPMENT \
-            --certificate-key=cert_key \
+            --certificate-key=@file:cert_key \
             --create
           keychain add-certificates
 
@@ -51,8 +51,8 @@ jobs:
           flutter packages pub get
           find . -name "Podfile" -execdir pod install \;
           flutter build ipa --export-options-plist=$HOME/export_options.plist
-          app-store-connect publish \
-          --path $(find $(pwd) -name "*.ipa")
+#          app-store-connect publish \
+#          --path $(find $(pwd) -name "*.ipa")
           keychain use-login
 
       - name: Upload Android release to artifacts
