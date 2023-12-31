@@ -41,10 +41,10 @@ jobs:
           keychain initialize
           keychain use-login
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
-            --platform IOS \
-            --type IOS_APP_DEVELOPMENT \
-            --certificate-key=@file:${{ env.APP_STORE_CONNECT_PRIVATE_KEY }} \
-            --create
+          --platform IOS \
+          --type IOS_APP_DEVELOPMENT \
+          --certificate-key=@file:${{ steps.app_store_connect_key.outputs.filePath }} \
+          --create
           keychain add-certificates
 
       - name: Start IOS release build ${{ github.ref_name }}
