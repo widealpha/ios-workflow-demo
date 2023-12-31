@@ -35,6 +35,10 @@ jobs:
         run: |
           pip3 install codemagic-cli-tools
           ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
+          ls cert_key
+          ls ./cert_key
+          ls ./
+          cat cert_key
           keychain initialize
           keychain use-login
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
