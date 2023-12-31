@@ -40,11 +40,10 @@ jobs:
           ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
           ls -la
           keychain initialize
-          keychain use-login
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_DEVELOPMENT \
-            --certificate-private-key=@file:cert_key \
+            --certificate-key=@file:cert_key \
             --create
           keychain add-certificates
 
