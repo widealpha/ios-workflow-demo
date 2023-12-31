@@ -1,4 +1,4 @@
-name: Android Release
+name: IOS Release
 
 on:
   push:
@@ -9,7 +9,7 @@ env:
   ARCHITECTURE: ios
 
 jobs:
-  build-android-release:
+  build-ios-release:
     runs-on: macos-latest
     timeout-minutes: 30
     steps:
@@ -40,7 +40,7 @@ jobs:
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_STORE \
-            --certificate-key=@file:/path/to/cert_key \
+            --certificate-key=@file:cert_key \
             --create
           keychain add-certificates
 
