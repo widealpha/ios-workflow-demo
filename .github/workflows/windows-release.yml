@@ -32,8 +32,9 @@ jobs:
           ./is.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
 
       - name: Use inno-setup package installer
-        run:
-          iscc.exe /Qp /F"installer.exe" "SetupScript.iss"
+        run: |
+          ls -la
+          iscc /O"${{ github.workspace }}" /F"installer" "SetupScript.iss"
 
       - name: Upload Windows release to artifacts
         uses: actions/upload-artifact@v4
