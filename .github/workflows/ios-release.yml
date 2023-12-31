@@ -35,16 +35,13 @@ jobs:
         run: |
           pip3 install codemagic-cli-tools
           ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
-          ls cert_key
-          ls ./cert_key
-          ls ./
-          cat cert_key
+          ls -la
           keychain initialize
           keychain use-login
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_STORE \
-            --certificate-key=@file:$HOME/cert_key \
+            --certificate-key=@file:${{ APP_STORE_CONNECT_PRIVATE_KEY }} \
             --create
           keychain add-certificates
 
