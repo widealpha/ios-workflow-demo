@@ -26,11 +26,12 @@ jobs:
         run: flutter build windows
 
       - name: Install Inno-setup ChineseSimplified.isl
+        shell: cmd
         run: |
           curl -o "C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl" \
           https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/ChineseSimplified.isl
-          ls -la "C:\Program Files (x86)\Inno Setup 6\"
-          ls -la "C:\Program Files (x86)\Inno Setup 6\Languages\"
+          dir "C:\Program Files (x86)\Inno Setup 6\"
+          dir "C:\Program Files (x86)\Inno Setup 6\Languages\"
 
       - name: Inno-setup package installer
         run: |
