@@ -1,0 +1,61 @@
+name: Android Release
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  ARCHITECTURE: ios
+
+jobs:
+  build-android-release:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.16.3"
+          channel: 'stable'
+          cache: true
+
+      - name: Download IOS App store connection private key
+        id: app_store_connect_key
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: AuthKey_ID.p8
+          encodedString: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_BASE64 }}
+
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ steps.app_store_connect_key.outputs.filePath }}
+        run: |
+          pip3 install codemagic-cli-tools
+          ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
+          keychain initialize
+          keychain use-login
+          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+            --platform IOS \
+            --type IOS_APP_STORE \
+            --certificate-key=@file:/path/to/cert_key \
+            --create
+          keychain add-certificates
+
+      - name: Start IOS release build ${{ github.ref_name }}
+        run: |
+          xcode-project use-profiles
+          flutter packages pub get
+          find . -name "Podfile" -execdir pod install \;
+          flutter build ipa --export-options-plist=$HOME/export_options.plist
+          app-store-connect publish \
+          --path $(find $(pwd) -name "*.ipa")
+
+      - name: Upload Android release to artifacts
+        uses: actions/upload-artifact@v4
+        id: upload_to_artifact
+        with:
+          name: cave-${{ github.ref_name }}-${{ env.ARCHITECTURE }}-release
+          path: cave-${{ github.ref_name }}-${{ env.ARCHITECTURE }}-release.ipa
