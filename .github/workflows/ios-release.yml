@@ -3,6 +3,8 @@ name: IOS Release
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - .github/workflows/ios-release.yml
   workflow_dispatch:
 
 env:
@@ -35,13 +37,14 @@ jobs:
           CERTIFICATE_PRIVATE_KEY: ${{ github.workspace }}/cert_key
         run: |
           pip3 install codemagic-cli-tools
-          ssh-keygen -t pkcs12 -b 2048 -m PEM -f ${{ env.CERTIFICATE_PRIVATE_KEY }} -q -N ""
+          ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
           ls -la
           keychain initialize
           keychain use-login
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_DEVELOPMENT \
+            --certificate-private-key=@file:cert_key \
             --create
           keychain add-certificates
 

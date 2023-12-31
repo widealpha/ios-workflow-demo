@@ -3,6 +3,8 @@ name: Windows Release
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - .github/workflows/windows-release.yml
   workflow_dispatch:
 
 env:
@@ -39,4 +41,4 @@ jobs:
         with:
           retention-days: 7
           name: mysetup
-          path: mysetup.exe
+          path: Output/mysetup.exe
