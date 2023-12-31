@@ -43,7 +43,7 @@ jobs:
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
           --platform IOS \
           --type IOS_APP_DEVELOPMENT \
-          --certificate-key=@file:${{ steps.app_store_connect_key.outputs.filePath }} \
+          --certificate-key=@file:AuthKey_ID.p8 \
           --create
           keychain add-certificates
 
