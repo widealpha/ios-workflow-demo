@@ -26,15 +26,10 @@ jobs:
       - name: Start Windows release build ${{ github.ref_name }}
         run: flutter build windows
 
-      - name: Set up inno-setup
-        run: |
-          curl -O https://jrsoftware.org/download.php/is.exe
-          ./is.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
-
-      - name: Use inno-setup package installer
+      - name: Inno-setup package installer
         run: |
           ls -la
-          iscc /O"${{ github.workspace }}" /F"installer" "SetupScript.iss"
+          iscc "SetupScript.iss"
 
       - name: Upload Windows release to artifacts
         uses: actions/upload-artifact@v4
