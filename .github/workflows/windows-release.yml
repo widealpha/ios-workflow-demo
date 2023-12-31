@@ -26,6 +26,12 @@ jobs:
       - name: Start Windows release build ${{ github.ref_name }}
         run: flutter build windows
 
+      - name: Install Inno-setup ChineseSimplified.isl
+        run: |
+          curl -o ChineseSimplified.isl \
+          https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/ChineseSimplified.isl
+          cp ChineseSimplified.isl "C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl"
+
       - name: Inno-setup package installer
         run: |
           ls -la
