@@ -35,7 +35,7 @@ jobs:
           CERTIFICATE_PRIVATE_KEY: ${{ github.workspace }}/cert_key
         run: |
           pip3 install codemagic-cli-tools
-          ssh-keygen -t rsa -b 2048 -m PEM -f ${{ env.CERTIFICATE_PRIVATE_KEY }} -q -N ""
+          ssh-keygen -t pkcs12 -b 2048 -m PEM -f ${{ env.CERTIFICATE_PRIVATE_KEY }} -q -N ""
           ls -la
           keychain initialize
           keychain use-login
