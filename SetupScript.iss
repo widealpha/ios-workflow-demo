@@ -4,7 +4,6 @@ AppVersion=1.0
 DefaultDirName={pf}\MyApplication
 DefaultGroupName=My Application
 UninstallDisplayIcon={app}\github_workflow_demo.exe
-OutputDir=userdocs:Inno Setup Examples Output
 
 [Files]
 Source: "build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs

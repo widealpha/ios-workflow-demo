@@ -33,7 +33,7 @@ jobs:
 
       - name: Use inno-setup package installer
         run:
-          iscc.exe /Q SetupScript.iss /O installer.exe
+          iscc.exe /Qp /F"installer.exe" "SetupScript.iss"
 
       - name: Upload Windows release to artifacts
         uses: actions/upload-artifact@v4
