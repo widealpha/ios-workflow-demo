@@ -20,7 +20,6 @@ jobs:
         with:
           flutter-version: "3.16.3"
           channel: 'stable'
-          cache: true
 
       - name: Download IOS App store connection private key
         id: app_store_connect_key
