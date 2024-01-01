@@ -33,7 +33,7 @@ jobs:
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
-          APP_STORE_CONNECT_PRIVATE_KEY: ${{ steps.app_store_connect_key.outputs.filePath }}
+          APP_STORE_CONNECT_PRIVATE_KEY_PATH: ${{ steps.app_store_connect_key.outputs.filePath }}
           CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
         run: |
           pip3 install codemagic-cli-tools
@@ -44,6 +44,10 @@ jobs:
           app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
             --platform IOS \
             --type IOS_APP_DEVELOPMENT \
+            --issuer-id=${{ env.APP_STORE_CONNECT_ISSUER_ID }} \
+            --key-id=${{ env.APP_STORE_CONNECT_KEY_IDENTIFIER }} \
+            --private-key=@file:${{ env.APP_STORE_CONNECT_PRIVATE_KEY_PATH }} \
+            --certificate-key=${{ env.CERTIFICATE_PRIVATE_KEY }} \
             --create
           keychain add-certificates
 
