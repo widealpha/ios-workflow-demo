@@ -33,7 +33,6 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
           APP_STORE_CONNECT_PRIVATE_KEY_PATH: ${{ steps.app_store_connect_key.outputs.filePath }}
-          CERTIFICATE_PRIVATE_KEY: ${{ secrets.CERTIFICATE_PRIVATE_KEY }}
         run: |
           pip3 install codemagic-cli-tools
           ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
@@ -46,7 +45,7 @@ jobs:
             --issuer-id=${{ env.APP_STORE_CONNECT_ISSUER_ID }} \
             --key-id=${{ env.APP_STORE_CONNECT_KEY_IDENTIFIER }} \
             --private-key=@file:${{ env.APP_STORE_CONNECT_PRIVATE_KEY_PATH }} \
-            --certificate-key=${{ env.CERTIFICATE_PRIVATE_KEY }} \
+            --certificate-key=@file:cert_key \
             --create
           keychain add-certificates
 
@@ -60,9 +59,9 @@ jobs:
           --path $(find $(pwd) -name "*.ipa")
           keychain use-login
 
-      - name: Upload Android release to artifacts
+      - name: Upload IOS release to artifacts
         uses: actions/upload-artifact@v4
         id: upload_to_artifact
         with:
-          name: cave-${{ github.ref_name }}-${{ env.ARCHITECTURE }}-release
-          path: cave-${{ github.ref_name }}-${{ env.ARCHITECTURE }}-release.ipa
+          name: release
+          path: release.ipa
