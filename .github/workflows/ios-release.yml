@@ -13,7 +13,7 @@ env:
 jobs:
   build-ios-release:
     runs-on: macos-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
