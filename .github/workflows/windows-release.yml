@@ -43,6 +43,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           retention-days: 1
-          name: mysetup
+          name: setup
           compression-level: 9
-          path: Output/mysetup.exe
+          path: Output/*
