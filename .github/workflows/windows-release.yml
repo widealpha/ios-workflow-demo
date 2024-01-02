@@ -30,7 +30,8 @@ jobs:
       - name: Install Inno-setup ChineseSimplified.isl
         run: |
           curl -o "C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl" \
-          https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/ChineseSimplified.isl
+          https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl
+          cat "C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl"
 
       - name: Inno-setup package installer
         run: |
@@ -42,7 +43,7 @@ jobs:
       - name: Upload Windows release to artifacts
         uses: actions/upload-artifact@v4
         with:
-          retention-days: 7
+          retention-days: 1
           name: mysetup
           compression-level: 9
           path: Output/mysetup.exe
