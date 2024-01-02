@@ -40,7 +40,6 @@ jobs:
           keychain initialize
           keychain use-login
           app-store-connect get-certificate 2XGCRNMU8V \
-            --platform IOS \
             --issuer-id=${{ env.APP_STORE_CONNECT_ISSUER_ID }} \
             --key-id=${{ env.APP_STORE_CONNECT_KEY_IDENTIFIER }} \
             --private-key=@file:${{ env.APP_STORE_CONNECT_PRIVATE_KEY_PATH }} \
