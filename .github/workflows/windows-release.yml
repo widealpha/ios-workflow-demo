@@ -34,8 +34,6 @@ jobs:
 
       - name: Inno-setup package installer
         run: |
-               
-          
           sed -i '1i\#define MyAppId "7426D8CB-93E6-4AA9-9D92-E9A20608C5E9"' ./SetupScript.iss
           sed -i '2i\#define MyAppName "Test"' ./SetupScript.iss
           sed -i '3i\#define MyAppVersion "1.1"' ./SetupScript.iss
