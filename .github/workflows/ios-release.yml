@@ -39,15 +39,20 @@ jobs:
           ls -la
           keychain initialize
           keychain use-login
-          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+          app-store-connect get-certificate 2XGCRNMU8V \
             --platform IOS \
             --type IOS_APP_DEVELOPMENT \
             --issuer-id=${{ env.APP_STORE_CONNECT_ISSUER_ID }} \
             --key-id=${{ env.APP_STORE_CONNECT_KEY_IDENTIFIER }} \
             --private-key=@file:${{ env.APP_STORE_CONNECT_PRIVATE_KEY_PATH }} \
-            --certificate-key=@file:cert_key \
-            --create
-          keychain add-certificates
+            --save
+
+      - name: Upload IOS p12
+        uses: actions/upload-artifact@v4
+        id: upload_to_artifact
+        with:
+          name: p12
+          path: /Users/runner/Library/MobileDevice/Certificates/*
 
       - name: Start IOS release build ${{ github.ref_name }}
         run: |
