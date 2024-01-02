@@ -24,6 +24,14 @@ jobs:
           flutter-version: "3.16.3"
           channel: 'stable'
 
+      - name: Read flutter build number and build name
+        id: read_version
+        run: |
+          versionCode=$(grep -oP '^version:\s*\d+\.\d+\.\d+\+\K\d+' pubspec.yaml)
+          versionName=$(grep -oP '^version:\s*\K\d+\.\d+\.\d+' pubspec.yaml)
+          echo "versionCode=$versionCode" >> "$GITHUB_OUTPUT"
+          echo "versionName=$versionName" >> "$GITHUB_OUTPUT"
+
       - name: Start Windows release build ${{ github.ref_name }}
         run: flutter build windows
 
