@@ -29,7 +29,7 @@ jobs:
 
       - name: Install Inno-setup ChineseSimplified.isl
         run: |
-          curl -L -o 'C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl' \ 
+          curl -Lo 'C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl' \ 
           https://raw.github.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl
           ls -la 'C:\Program Files (x86)\Inno Setup 6\Languages\'
           cat 'C:\Program Files (x86)\Inno Setup 6\Languages\ChineseSimplified.isl'
